@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarefas — Lista de tarefas</title>
+<link rel="stylesheet" href="style.css">
+<link rel="shortcut icon" href="image/to-do.ico">
+</head>
+<body>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">✓</div>
+        <div class="brand-name">Tarefas</div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-item clickable" data-visualizacao="hoje">
+          <div class="left"><span class="icon">☀</span><span>Meu dia</span></div>
+          <span class="count" id="contagemHoje">0</span>
+        </div>
+        <div class="nav-item clickable" data-visualizacao="favoritos">
+          <div class="left"><span class="icon">★</span><span>Favoritos</span></div>
+          <span class="count" id="contagemFavoritos">0</span>
+        </div>
+        <div class="nav-item clickable" data-visualizacao="concluidas">
+          <div class="left"><span class="icon">✓</span><span>Concluídas</span></div>
+          <span class="count" id="contagemConcluidas">0</span>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-heading">Minhas listas</div>
+        <div id="containerListas"></div>
+        <div class="nav-add" id="botaoNovaLista">+ Nova lista</div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="campoBusca" class="search-input" placeholder="Buscar tarefas...">
+        </div>
+        <span class="clock" id="relogioBrasilia">🕒 --:--:--</span>
+        <div class="top-icons">
+          <span class="bell">🔔</span>
+          <div class="user" id="gatilhoPerfil">
+            <div class="avatar" id="iniciaisAvatar">LR</div>
+            <div>
+              <div class="user-name" id="nomeUsuarioExibido">Luiz Rianelli</div>
+              <div class="user-plan" id="emailUsuarioExibido">luizfrianellifv@gmail.com</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-row">
+        <div class="content-col">
+          <div class="greeting-row">
+            <div class="greeting">
+              <h1 id="nomeSaudacao">Bom dia, Luiz</h1>
+              <div class="date" id="rotuloData">—</div>
+            </div>
+            <button class="btn-new" id="botaoNovaTarefa">+ Nova tarefa</button>
+          </div>
+
+          <div class="progress-card" id="cartaoProgresso">
+            <div class="progress-top">
+              <span class="label">Seu progresso</span>
+              <span class="value" id="valorProgresso">0% concluído</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="preenchimentoProgresso"></div></div>
+            <div class="progress-note" id="notaProgresso"></div>
+          </div>
+
+          <div class="section-heading">
+            <h2 id="tituloDia">Hoje</h2>
+            <span class="count" id="contagemTarefas">0 tarefas</span>
+          </div>
+
+          <div class="task-list" id="listaTarefas"></div>
+        </div>
+
+        <aside class="calendar-col">
+          <div class="calendar-card">
+            <div class="calendar-title" id="tituloCalendario">—</div>
+            <div class="cal-grid" id="gradeCalendario"></div>
+            <div class="cal-hint">Clique em um dia para ver ou adicionar tarefas</div>
+          </div>
+          <div class="calendar-card">
+            <div class="upcoming-title">Próximos dias</div>
+            <div class="upcoming-item">
+              <div class="dot"></div>
+              <div>
+                <div class="u-title">Reunião de equipe</div>
+                <div class="u-time">Amanhã, 09:30</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <nav class="bottom-tabbar">
+      <div class="m-tab active" data-visualizacao="hoje"><span class="icon">☀</span>Meu dia</div>
+      <div class="m-tab" data-visualizacao="favoritos"><span class="icon">★</span>Favoritos</div>
+      <div class="m-tab" data-visualizacao="concluidas"><span class="icon">✓</span>Concluídas</div>
+    </nav>
+  </div>
+
+  <button class="fab" id="botaoNovaTarefaFab">+</button>
+
+  
+  <div class="modal-overlay" id="modalTarefa">
+    <div class="modal">
+      <h3>Nova tarefa</h3>
+      <div class="modal-subtitle" id="dicaDataModal">Para: Hoje</div>
+      <form id="formularioTarefa">
+        <div class="field">
+          <label>Título</label>
+          <input type="text" id="campoTitulo" placeholder="Ex: Aula de boxe" required>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Lista</label>
+            <select id="campoCategoria"></select>
+          </div>
+          <div class="field">
+            <label>Horário</label>
+            <input type="time" id="campoHorario" value="09:00">
+          </div>
+        </div>
+        <div class="field">
+          <label>Repetir nos dias (opcional)</label>
+          <div class="days-picker" id="seletorDias"></div>
+          <div class="hint">Se nenhum dia for marcado, a tarefa vale só para a data selecionada.</div>
+        </div>
+        <div class="field">
+          <label class="checkbox-inline"><input type="checkbox" id="campoPrioridade"> Prioridade alta</label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="botaoCancelarModal">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar tarefa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="modalLista">
+    <div class="modal">
+      <h3>Nova lista</h3>
+      <form id="formularioLista">
+        <div class="field">
+          <label>Nome da lista</label>
+          <input type="text" id="campoNomeLista" placeholder="Ex: Estudos" required>
+        </div>
+        <div class="field">
+          <label>Ícone</label>
+          <div class="icon-picker" id="seletorIcones"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="botaoCancelarLista">Cancelar</button>
+          <button type="submit" class="btn-primary">Criar lista</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="modalPerfil">
+    <div class="modal">
+      <h3>Editar perfil</h3>
+      <form id="formularioPerfil">
+        <div class="field">
+          <label>Nome</label>
+          <input type="text" id="campoNomePerfil" required>
+        </div>
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" id="campoEmailPerfil" required>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="botaoCancelarPerfil">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
